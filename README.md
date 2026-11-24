@@ -40,6 +40,23 @@ Sample files live in `demo-files/` (Excel + label photos) and can be used manual
 - Custom Code 128 barcode reader, custom WebGL renderer for the 3D layout
 - Per-device `localStorage`; no server
 
+## Access roles
+
+- Visitor (default, no sign-in): can see everything except "Reset demo data".
+- Administrator: sign in from Profile with the admin name and code (the code is not published here).
+
+## Segurín
+
+A friendly safety mascot: greets on the intro screen, asks a safety question, says safety phrases and has its own section ("With Segurín") with a daily question, streak and phrases. Voice is off by default (speaker toggle). Recorded neural voice in ES/EN/PT/FR/ZH (sgaudio-*.js, loaded on demand); German uses the device voice.
+
+**Mini-scenes:** four short animated scenes (wet floor, forklift, phone while walking, lifting a load) where Segurín talks with a coworker, both wearing full PPE. Voices per line (sgscn-*.js, loaded on demand).
+
+## Languages
+
+English, Spanish, German, Portuguese, French and Mandarin Chinese (中文).
+
+> Flat version (all files in one folder, no subfolders) for uploading from a phone.
+
 ## Run locally
 
 ```bash

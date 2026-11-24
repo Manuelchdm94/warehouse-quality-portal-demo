@@ -325,10 +325,11 @@ async function hashPin(emp,pin){try{const h=await crypto.subtle.digest("SHA-256"
 function loadUserData(){REC=U.get("rec",[]);if(!Array.isArray(REC))REC=[];WARN=U.get("warn",{dup:{},del:{}});WARN.dup=WARN.dup||{};WARN.del=WARN.del||{};VAL.stmap=U.get("stmap",{});
  const d=U.get("draft",null);if(d&&d.id&&Array.isArray(d.lots)&&d.lots.length===5)S=d;else newForm();lpLoad();hlogLoad();dshLoad();attLoad();GPL="";setTimeout(()=>{marksPull();gPush();if(typeof teamSync==="function")teamSync();},2500);}
 function enterUser(u){ME={emp:u.emp,nombre:u.nombre,apellido:u.apellido,guest:false};LS.set("wq:session",{emp:u.emp});AUTH={mode:"menu",f:{},err:""};loadUserData();TAB="home";render();window.scrollTo(0,0);cloudStart();}
-const ALLOW=[{id:"demo",n:"Demo",a:"Visitor",h:""}];
+const ALLOW=[{id:"demo",n:"Demo",a:"Visitor",h:"",r:"v"},{id:"admin",n:"Manuel",a:"Chagala",h:"435485aeef365a95402e6dde655bcd85b0ab9ade5bf409766733f98065dd3916",r:"a"},{id:"vp",n:"Visitante",a:"Prueba",h:"dcd95d6888830baeec0e5c20569c4b3e43dfdb71ccbf2515382a3a7ae4bafe13",r:"v"}];
+const isAdm=()=>!!(ME&&ME.role==="admin");
 const normNm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
 async function hashAcc(nm,code){const t="wq|acc|"+nm+"|"+String(code||"").toUpperCase().replace(/\s/g,"");try{const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");}catch(e){return "";}}
-function allowMe(u){let emp="U"+u.id;if(u.adm){const m=USERS.find(x=>normNm(x.nombre)===normNm(u.n)&&normNm(x.apellido).split(" ")[0]===normNm(u.a))||(USERS.length===1?USERS[0]:null);if(m)emp=m.emp;}return {emp,nombre:u.n,apellido:u.a,guest:false,al:!u.adm};}
+function allowMe(u){let emp="U"+u.id;if(u.adm){const m=USERS.find(x=>normNm(x.nombre)===normNm(u.n)&&normNm(x.apellido).split(" ")[0]===normNm(u.a))||(USERS.length===1?USERS[0]:null);if(m)emp=m.emp;}return {emp,nombre:u.n,apellido:u.a,guest:false,al:!u.adm,role:u.r==="a"?"admin":"visitor",named:u.id!=="demo"};}
 function enterAllow(u){ME=allowMe(u);LS.set("wq:session",{al:u.id});AUTH={mode:"menu",f:{},err:""};loadUserData();TAB="home";render();window.scrollTo(0,0);cloudStart();}
 async function doAccess(){const f=AUTH.f,nm=normNm((f.an||"")+" "+(f.aa||"")),code=f.ac||"";
  if(!nm||!code)return authErr(_t(224,"Enter your first name, last name and code."));
@@ -355,17 +356,18 @@ async function doSignup(){const f=AUTH.f,nombre=titleCase(f.nombre||""),apellido
   if(first)["rec","warn","draft","stmap"].forEach(k=>{const v=LS.get("wq:"+k,null);if(v!=null)LS.set("wq:u"+emp+":"+k,v);});
   enterUser(u);};
  if(emp.length!==5)dlg({title:_t(235,"Employee number"),body:_t(236,"It normally has 5 digits. Do you confirm that  ")+emp+_t(999," is correct?"),buttons:[{t:_t(990,"Fix")},{t:_t(991,"Confirm"),cls:"pri",fn:make}]});else make();}
-const FOOT=_t(1030,'<footer class="foot">Demo · fictitious data · prototype</footer>');
+const FOOT=_t(1030,'<footer class="foot">Demo · Developed by Manuel Chagala Domínguez</footer>');
 function renderAuth(){
  document.body.classList.add("noauth");$("#tabs").innerHTML="";
  const A=AUTH,f=A.f,v=k=>esc(f[k]||""),er=A.err?`<div class="aerr">${esc(A.err)}</div>`:"";
  let h=`<div class="aw"><div class="aicon">${GLYPH}${_t(1014,`</div><h1 style="font-size:26px;line-height:1.15">Logistics Control</h1><p class="asub">Demo site</p>`)}`;
- if(A.mode==="menu")h+=`${_t(237,`<div class="card"><label class="lb">First name</label><input data-au="an" autocomplete="off" autocapitalize="words" maxlength="30" placeholder="First name" value="`)}${v("an")}${_t(1015,`"><label class="lb">Last name</label><input data-au="aa" autocomplete="off" autocapitalize="words" maxlength="30" placeholder="Last name" value="`)}${v("aa")}${_t(239,`"><label class="lb">Access code</label><input data-au="ac" type="password" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="Code" value="`)}${v("ac")}"></div>${er}${_t(240,`<div class="abtns"><button type="button" class="btn pri" data-ua="doAccess">Enter</button><button type="button" class="btn txt" data-ua="mode:login">Admin access</button></div><p class="anote">Demo access.</p>`)}`;
+ if(A.mode==="menu")h+=`${_t(237,`<div class="card"><label class="lb">First name</label><input data-au="an" autocomplete="off" autocapitalize="words" maxlength="30" placeholder="First name" value="`)}${v("an")}${_t(1015,`"><label class="lb">Last name</label><input data-au="aa" autocomplete="off" autocapitalize="words" maxlength="30" placeholder="Last name" value="`)}${v("aa")}${_t(239,`"><label class="lb">Access code</label><input data-au="ac" type="password" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="Code" value="`)}${v("ac")}"></div>${er}${_t(240,`<div class="abtns"><button type="button" class="btn pri" data-ua="doAccess">Enter</button><button type="button" class="btn txt" data-ua="demoguest">Continue as visitor</button></div><p class="anote">Demo access.</p>`)}`;
  else h+=`${_t(241,`<h2 style="margin:0 0 10px;font-size:20px">Admin access</h2>`)}`+(USERS.length?`<div class="lst">${USERS.map(u=>`<button type="button" class="lr ${f.emp===u.emp?"on":""}" data-ua="pick:${esc(u.emp)}"><span class="av">${esc(initials(u))}</span><span><b>${esc(u.nombre+" "+u.apellido)}</b><small>No. ${esc(u.emp)}${u.pin?_t(242,"  · with PIN"):""}</small></span></button>`).join("")}</div>`:"")+er
   +`${_t(243,`<div class="card"><label class="lb">Employee number</label><input data-au="emp" inputmode="numeric" maxlength="8" autocomplete="off" value="`)}${v("emp")}${_t(1016,`" placeholder="12345"><label class="lb">PIN (if you set one)</label><input data-au="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" value="`)}${v("pin")}" placeholder="••••"></div><div class="abtns"><button type="button" class="btn pri" data-ua="doLogin">Enter</button><button type="button" class="btn txt" data-ua="mode:menu">Volver</button></div>`;
  $("#app").innerHTML=h+`</div>`+FOOT;}
-function viewPerfil(){const g=ME.guest,th=LS.get("wq:theme","system");
- return `<div class="card center"><div class="av big">${esc(initials(ME))}</div><h2 class="nm">${esc(g?ME.nombre:ME.nombre+" "+ME.apellido)}${_t(1017,`</h2><p class="mu" style="margin:4px 0 0">Demo visitor · data stays on this device</p></div>
+function viewPerfil(){let h=viewPerfil0();if(!isAdm())h=h.replace(/<button[^>]*data-ua="demoreset"[^>]*>[^<]*<\/button>/,"");return h+`<div class="card"><button type="button" class="btn" style="width:100%" data-ua="logout">${ME&&ME.named?_t(1037,"Sign out"):_t(1033,"Sign in with access code")}</button></div>`;}
+function viewPerfil0(){const g=ME.guest,th=LS.get("wq:theme","system");
+ return `<div class="card center"><div class="av big">${esc(initials(ME))}</div><h2 class="nm">${esc(g?ME.nombre:ME.nombre+" "+ME.apellido)}<span class="tg" style="margin-left:8px;font-size:11px;vertical-align:middle">${isAdm()?_t(1034,"Administrator"):_t(1035,"Visitor")}</span>${_t(1017,`</h2><p class="mu" style="margin:4px 0 0">Demo visitor · data stays on this device</p></div>
  `)}${g?`<div class="card"><h2 class="sh">${_t(1028,"Your name")}</h2><input data-gn value="${esc(ME.nombre==="Visitor"?"":ME.nombre)}"${_t(1029,` maxlength="30" placeholder="What should I call you"></div>`)}`:""}${langCard()}${_t(251,`
  <div class="card"><h2 class="sh">Appearance</h2><div class="seg">`)}${[["system",_t(252,"System")],["light",_t(253,"Light")],["dark",_t(254,"Dark")]].map(o=>`<button type="button" class="${th===o[0]?"on":""}" data-ua="theme:${o[0]}">${o[1]}</button>`).join("")}${_t(1018,`</div></div>
  <div class="card"><h2 class="sh">Install on your phone</h2><p class="mu" style="margin:6px 0 0;font-size:14px">To open it as an app: in Safari tap Share and choose "Add to Home Screen". In Chrome, menu ⋮ and "Install app".</p></div>
@@ -382,7 +384,7 @@ function render(){
  try{LS.set("wq:ui",{emp:ME.emp,tab:TAB,ts:Date.now()});}catch(e){}
  $("#tabs").innerHTML=BAR.map(t=>`<button type="button" class="tab ${t===act?"on":""}" data-tab="${t}"><svg viewBox="0 0 24 24">${IC[t]}</svg>${TNAME[t]}${t==="more"&&np?`<span class="pb">${np}</span>`:""}</button>`).join("");
  $("#who").textContent=initials(ME);
- const V={home:viewHome,rcv:()=>lpView("rcv"),sur:()=>lpView("sur"),val:viewVal,insp:viewInsp,dash:viewDash,pend:viewPend,hist:viewHist,more:viewMore,perfil:viewPerfil,admin:viewAdmin,l3d:viewL3d};
+ const V={home:viewHome,rcv:()=>lpView("rcv"),sur:()=>lpView("sur"),val:viewVal,insp:viewInsp,dash:viewDash,pend:viewPend,hist:viewHist,more:viewMore,perfil:viewPerfil,admin:viewAdmin,l3d:viewL3d,seg:(typeof viewSeg==="function"?viewSeg:()=>"")};
  const back=MORE.includes(TAB)?`${_t(259,`<button type="button" class="back" data-tab="more">‹ More</button>`)}`:"";
  $("#app").innerHTML=(TAB==="home"?"":back+`<h1 class="lt">${TNAME[TAB]}</h1>`)+V[TAB]()+FOOT;
  if(TAB==="rcv"||TAB==="sur"||TAB==="insp")warmOcr();if(typeof firstHelp==="function")setTimeout(firstHelp,250);}
@@ -398,7 +400,8 @@ document.addEventListener("click",e=>{
  else if(a==="doLogin")doLogin();else if(a==="doSignup")doSignup();
  else if(a==="pick"){AUTH.f.emp=v;AUTH.f.pin="";AUTH.err="";renderAuth();}
  else if(a==="logout")logout();
- else if(a==="demoreset")dlg({title:_t(1020,"Reset demo data"),body:_t(1021,"This clears everything you entered in this demo on this device."),buttons:[{t:_t(12,"Cancel")},{t:"Reset",cls:"dg",fn:()=>{try{Object.keys(localStorage).filter(k=>k.indexOf("wq:")===0).forEach(k=>localStorage.removeItem(k));}catch(x){}location.reload();}}]});
+ else if(a==="demoguest")enterAllow(ALLOW[0]);
+ else if(a==="demoreset"&&isAdm())dlg({title:_t(1020,"Reset demo data"),body:_t(1021,"This clears everything you entered in this demo on this device."),buttons:[{t:_t(12,"Cancel")},{t:"Reset",cls:"dg",fn:()=>{try{Object.keys(localStorage).filter(k=>k.indexOf("wq:")===0).forEach(k=>localStorage.removeItem(k));}catch(x){}location.reload();}}]});
  else if(a==="csave")cloudSave();else if(a==="cnow")cloudPush(true);else if(a==="crec")cloudRecover();else if(a==="coff"){LS.set("wq:cloud",null);CL.st="";toast(_t(260,"Server backup disabled."));render();}
  else if(a==="gwipe")dlg({title:_t(261,"Delete my data"),body:_t(262,"Your saved records, LPNs, validations and dashboards on this device will be deleted. This cannot be undone."),buttons:[{t:_t(12,"Cancel")},{t:_t(25,"Delete"),cls:"dg",fn:()=>{try{Object.keys(localStorage).filter(k=>k.indexOf("wq:ug:")===0).forEach(k=>localStorage.removeItem(k));}catch(x){}lpReset();loadUserData();toast(_t(264,"Data deleted."));TAB="home";render();}}]});
  else if(a==="theme"){LS.set("wq:theme",v);applyTheme();render();}
@@ -478,7 +481,7 @@ function gst(){let g=LS.get("wq:g",null);if(!g||!g.id)g={id:Math.random().toStri
 function gstInc(k){if(!ME||!ME.guest)return;const g=gst();g[k]=(g[k]||0)+1;g.last=Date.now();g.nm=ME.nombre||"";try{g.pl=attPl();}catch(e){}LS.set("wq:g",g);const u=cloudCfg();if(!u||navigator.onLine===false)return;
  try{fetch(u+"/wq_guests/"+g.id+".json",{method:"PUT",body:JSON.stringify(Object.assign({ua:(navigator.userAgent.match(/iPhone|iPad|Android|Windows|Macintosh|Linux/)||[_t(30,"?")])[0]},g))}).catch(()=>{});}catch(e){}}
 const ADM={list:null,guests:null,err:"",exp:{},loading:false};
-const admOn=()=>LS.get("wq:adm",0)===1;
+const admOn=()=>isAdm()&&LS.get("wq:adm",0)===1;
 async function admHash(c){try{const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("wq|admin|"+c));return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");}catch(e){return "x"+btoa("admin:"+c);}}
 async function admLogin(){
  const code=(ADM.code||"").trim();if(!cloudCfg()){toast("First connect the server in Server backup.");return;}

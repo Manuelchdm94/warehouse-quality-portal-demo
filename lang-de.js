@@ -233,7 +233,7 @@ window.LX={
 236:"Sie hat normalerweise 5 Ziffern. Bestätigst du, dass ",
 237:"<div class=\"card\"><label class=\"lb\">Vorname</label><input data-au=\"an\" autocomplete=\"off\" autocapitalize=\"words\" maxlength=\"30\" placeholder=\"Vorname\" value=\"",
 239:"\"><label class=\"lb\">Zugangscode</label><input data-au=\"ac\" type=\"password\" autocomplete=\"off\" autocapitalize=\"characters\" maxlength=\"12\" placeholder=\"Code\" value=\"",
-240:"<div class=\"abtns\"><button type=\"button\" class=\"btn pri\" data-ua=\"doAccess\">Eintreten</button><button type=\"button\" class=\"btn txt\" data-ua=\"mode:login\">Admin-Zugang</button></div><p class=\"anote\">Demo-Zugang.</p>",
+240:"<div class=\"abtns\"><button type=\"button\" class=\"btn pri\" data-ua=\"doAccess\">Eintreten</button><button type=\"button\" class=\"btn txt\" data-ua=\"demoguest\">Als Besucher fortfahren</button></div><p class=\"anote\">Demo-Zugang.</p>",
 241:"<h2 style=\"margin:0 0 10px;font-size:20px\">Admin-Zugang</h2>",
 242:" · mit PIN",
 243:"<div class=\"card\"><label class=\"lb\">Mitarbeiternummer</label><input data-au=\"emp\" inputmode=\"numeric\" maxlength=\"8\" autocomplete=\"off\" value=\"",
@@ -971,6 +971,11 @@ window.LX={
 1027:"\" onload=\"this.classList.add('on')\"></iframe><div class=\"l3t\"><b>Logistics Control</b><span>Demo-Lager · 3D-Layout</span></div><button type=\"button\" class=\"btn pri l3b\" data-l3d=\"skip\">Starten</button><i class=\"l3p\"></i>",
 1028:"Dein Name",
 1029:" maxlength=\"30\" placeholder=\"Wie soll ich dich nennen?\"></div>",
-1030:"<footer class=\"foot\">Demo · fiktive Daten · Prototyp</footer>",
-1031:" ausst."
+1030:"<footer class=\"foot\">Demo · Entwickelt von Manuel Chagala Domínguez</footer>",
+1031:" ausst.",
+1032:"Als Besucher fortfahren",
+1033:"Mit Zugangscode anmelden",
+1034:"Administrator",
+1035:"Besucher",
+1037:"Abmelden"
 };

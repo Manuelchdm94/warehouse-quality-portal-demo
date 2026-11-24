@@ -233,7 +233,7 @@ window.LX={
 236:"Normalmente tiene 5 dígitos. ¿Confirmas que ",
 237:"<div class=\"card\"><label class=\"lb\">Nombre</label><input data-au=\"an\" autocomplete=\"off\" autocapitalize=\"words\" maxlength=\"30\" placeholder=\"Nombre\" value=\"",
 239:"\"><label class=\"lb\">Código de acceso</label><input data-au=\"ac\" type=\"password\" autocomplete=\"off\" autocapitalize=\"characters\" maxlength=\"12\" placeholder=\"Código\" value=\"",
-240:"<div class=\"abtns\"><button type=\"button\" class=\"btn pri\" data-ua=\"doAccess\">Entrar</button><button type=\"button\" class=\"btn txt\" data-ua=\"mode:login\">Acceso administrador</button></div><p class=\"anote\">Acceso de demostración.</p>",
+240:"<div class=\"abtns\"><button type=\"button\" class=\"btn pri\" data-ua=\"doAccess\">Entrar</button><button type=\"button\" class=\"btn txt\" data-ua=\"demoguest\">Continuar como visitante</button></div><p class=\"anote\">Acceso de demostración.</p>",
 241:"<h2 style=\"margin:0 0 10px;font-size:20px\">Acceso administrador</h2>",
 242:" · con PIN",
 243:"<div class=\"card\"><label class=\"lb\">Número de empleado</label><input data-au=\"emp\" inputmode=\"numeric\" maxlength=\"8\" autocomplete=\"off\" value=\"",
@@ -971,6 +971,11 @@ window.LX={
 1027:"\" onload=\"this.classList.add('on')\"></iframe><div class=\"l3t\"><b>Logistics Control</b><span>Almacén demo · plano 3D</span></div><button type=\"button\" class=\"btn pri l3b\" data-l3d=\"skip\">Entrar</button><i class=\"l3p\"></i>",
 1028:"Tu nombre",
 1029:" maxlength=\"30\" placeholder=\"¿Cómo quieres que te llame?\"></div>",
-1030:"<footer class=\"foot\">Demo · datos ficticios · prototipo</footer>",
-1031:" pend."
+1030:"<footer class=\"foot\">Demo · Desarrollado por Manuel Chagala Domínguez</footer>",
+1031:" pend.",
+1032:"Continuar como visitante",
+1033:"Entrar con código de acceso",
+1034:"Administrador",
+1035:"Visitante",
+1037:"Cerrar sesión"
 };

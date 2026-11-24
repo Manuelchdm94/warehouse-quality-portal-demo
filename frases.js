@@ -37,6 +37,19 @@ var SAFE_Q={
    "Cuide de quem trabalha ao seu lado como cuida de você.",
    "Seja o exemplo: trabalhe com segurança e outros o seguirão."
   ],
+  "zh": [
+   "安全永远排在第一位，无论做什么。",
+   "安全是每个人的事。",
+   "做得对，也要做得安全。",
+   "再赶时间，也不值得冒险。",
+   "发现风险并采取行动，就是领导力。",
+   "像关心自己一样，关心身边的同事。",
+   "以身作则：安全作业，别人自然会跟上。"
+  ],
+  "zh": [
+   "只走标有标线的人行通道。",
+   "做安全问候。"
+  ],
   "fr": [
    "La sécurité passe avant tout, toujours et dans tout ce que nous faisons.",
    "La sécurité est l'affaire de tous.",

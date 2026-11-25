@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Configuración inicial</title>
+<style>body{font-family:-apple-system,Helvetica,Arial,sans-serif;max-width:560px;margin:20px auto;padding:0 14px}textarea,input{width:100%;box-sizing:border-box;padding:10px;margin:6px 0 12px;font-size:15px}textarea{height:180px;font-family:monospace;font-size:12px}button{padding:12px 18px;font-size:16px}pre{white-space:pre-wrap;background:#eee;padding:10px;font-size:13px}</style></head><body>
+<h2>Configuración inicial del acceso</h2>
+<p>Uso único del administrador. Pega la clave inicial y el contenido del archivo de usuarios (semilla). Después elimina este archivo del repositorio.</p>
+<label>Clave inicial</label><input id="k" autocomplete="off">
+<label>Usuarios (JSON)</label><textarea id="j"></textarea>
+<button id="go">Crear usuarios</button><pre id="o"></pre>
+<script type="module">
+const B="https://www.gstatic.com/firebasejs/13.4.0/";
+const C={apiKey:"AIzaSyD2LohuxZRFFjhkE-A5Nti4Rhv24bsdsB4",authDomain:"fir-portal-acceso-dd1d8.firebaseapp.com",projectId:"fir-portal-acceso-dd1d8",storageBucket:"fir-portal-acceso-dd1d8.firebasestorage.app",messagingSenderId:"202293778461",appId:"1:202293778461:web:b2f0c6a557c3110bcecef4"};
+const o=document.getElementById("o"),log=t=>o.textContent+=t+"\n";
+document.getElementById("go").onclick=async()=>{o.textContent="";
+ try{const k=document.getElementById("k").value.trim(),L=JSON.parse(document.getElementById("j").value);
+  const {initializeApp}=await import(B+"firebase-app.js"),{getAuth,signInAnonymously}=await import(B+"firebase-auth.js"),{getFirestore,doc,setDoc}=await import(B+"firebase-firestore.js");
+  const app=initializeApp(C),au=getAuth(app),db=getFirestore(app);await signInAnonymously(au);
+  for(const u of L){try{await setDoc(doc(db,"users",u.id),{n:u.n,a:u.a,r:u.r,s:false,m1:null,m2:null,d1:null,boot:k});log("OK  "+u.n+" "+u.a);}catch(e){log("ERROR "+u.n+" "+u.a+": "+(e.code||e.message));}}
+  log("Terminado.");
+ }catch(e){log("ERROR: "+(e.code||e.message));}};
+</script></body></html>
